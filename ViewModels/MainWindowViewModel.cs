@@ -34,8 +34,17 @@ namespace RoadshopEditor.ViewModels
 		[ObservableProperty] private ShopCategory[] _shopCategories = Array.Empty<ShopCategory>();
 		[ObservableProperty] private Dictionary<int, string> _allItems = null!;
 		[ObservableProperty] private ObservableCollection<RoadshopItem> _roadshopItems = null!;
-		[ObservableProperty,NotifyCanExecuteChangedFor(nameof(AddItemCommand))] private KeyValuePair<int, string>? _selectedRoadshopItemName;
-		[ObservableProperty,NotifyCanExecuteChangedFor(nameof(DeleteItemCommand))] private RoadshopItem? _selectedRoadshopItem = null!;
+
+		[ObservableProperty,
+		NotifyCanExecuteChangedFor(
+			nameof(AddItemCommand))]
+		private KeyValuePair<int, string>? _selectedRoadshopItemName;
+
+		[ObservableProperty,
+		NotifyCanExecuteChangedFor(
+			nameof(DeleteItemCommand))]
+		private RoadshopItem? _selectedRoadshopItem = null!;
+
 		[ObservableProperty,
 		NotifyCanExecuteChangedFor(
 			nameof(ExportCommand),
@@ -43,7 +52,6 @@ namespace RoadshopEditor.ViewModels
 			nameof(StartAddItemCommand),
 			nameof(CancelAddItemCommand))]
 		private bool _isConnectionEstablished = true;
-
 
 		private readonly RoadshopContext _context;
 		private readonly IImportRoadshopItemService _importService;
