@@ -72,26 +72,26 @@ namespace RoadshopEditor.ViewModels
 				StoreLevelRequirement = 1,
 				ItemId = SelectedRoadshopItemName.Key,
 				ShopId = SelectedCategory,
-				PointCost = int.TryParse(Cost, out int cost)
-					? (ushort)cost
+				PointCost = ushort.TryParse(Cost, out ushort cost)
+					? cost
 					: (ushort)0,
-				GRankRequirement = int.TryParse(QRankRequirement, out int qRank)
-					? (ushort)qRank
+				GRankRequirement = ushort.TryParse(QRankRequirement, out ushort qRank)
+					? qRank
 					: (ushort)0,
-				TradeQuantity = int.TryParse(Quantity, out int quantity)
-					? (ushort)quantity
+				TradeQuantity = ushort.TryParse(Quantity, out ushort quantity)
+					? quantity
 					: (ushort)0,
-				MaxQuantity = int.TryParse(MaxQuantity, out int maxQuantity)
-					? (ushort)maxQuantity
+				MaxQuantity = ushort.TryParse(MaxQuantity, out ushort maxQuantity)
+					? maxQuantity
 					: (ushort)0,
-				QuantityBought = int.TryParse(BoughtQuantity, out int boughtQuantity)
-					? (ushort)boughtQuantity
+				QuantityBought = ushort.TryParse(BoughtQuantity, out ushort boughtQuantity)
+					? boughtQuantity
 					: (ushort)0,
-				HuntingRoadLevelRequirement = int.TryParse(FloorRequirement, out int storeLevelRequirement)
-					? (ushort)storeLevelRequirement
+				HuntingRoadLevelRequirement = ushort.TryParse(FloorRequirement, out ushort storeLevelRequirement)
+					? storeLevelRequirement
 					: (ushort)0,
-				WeeklyFatalisKills = int.TryParse(WeeklyFatalisKills, out int weeklyFatalisKills)
-					? (ushort)weeklyFatalisKills
+				WeeklyFatalisKills = ushort.TryParse(WeeklyFatalisKills, out ushort weeklyFatalisKills)
+					? weeklyFatalisKills
 					: (ushort)0
 			};
 
