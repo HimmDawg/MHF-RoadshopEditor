@@ -1,20 +1,21 @@
 # MHF-Roadshop Editor
-This is an editor, that makes adding, changing and deleting items from a Monster Hunter Frontier roadshop fast and comfortable.
-This editor is inspired by Chakratos' Savemanager and tries to improve in terms of performance.
+This is an editor, that makes adding, changing and deleting items from your own Monster Hunter Frontier roadshop fast and comfortable.
+This editor is inspired by Chakratos' MHF Save manager and tries to improve in terms of performance.
 
 # Installation
 Just download one of the releases for your platform and unpack the archive anywhere on your pc.
 
 # Preparation
-Navigate to your folder where you have unpacked the archive and locate `appsettings.json`. You will the following json:
+Navigate to your folder where you have unpacked the archive and locate `appsettings.json`. You will find the following json:
 ```json
 {
   "ConnectionStrings": {
     "RoadshopItemsDatabase": "Host=<host>;Database=erupe;Username=<username>;Password=<password>"
-  }
+  },
+  "RoadshopItemsTable": "normal_shop_items"
 }
 ```
-Put in the required information for `<host>`, `<username>` and `<password>` and save the file.
+Put in the required information for `<host>`, `<username>` and `<password>` and save the file. If your roadshop items tablename should differ from the one I put in, you can of course change it here too.
 
 # Usage
 ### Adding items
