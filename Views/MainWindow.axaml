@@ -49,8 +49,8 @@
 				AutoGenerateColumns="False"
 				GridLinesVisibility="All">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="ID" Binding="{Binding ItemHash}" />
-					<DataGridTextColumn Header="Itemname" Binding="{Binding Name}" />
+					<DataGridTextColumn Header="ID" Binding="{Binding ItemHash}" IsReadOnly="True"/>
+					<DataGridTextColumn Header="Itemname" Binding="{Binding Name}" IsReadOnly="True"/>
 					<DataGridTextColumn Header="Cost" Binding="{Binding PointCost}" />
 					<DataGridTextColumn Header="Quantity" Binding="{Binding TradeQuantity}" />
 					<DataGridTemplateColumn Header="Category" MinWidth="150">
