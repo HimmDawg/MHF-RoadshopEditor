@@ -1,6 +1,6 @@
 # MHF-Roadshop Editor
 This is an editor, that makes adding, changing and deleting items from a Monster Hunter Frontier roadshop fast and comfortable.
-This editor is inspired by Chakratos' Savemanager and tries to improve in terms of performance and usability.
+This editor is inspired by Chakratos' Savemanager and tries to improve in terms of performance.
 
 # Installation
 Just download one of the releases for your platform and unpack the archive anywhere on your pc.
