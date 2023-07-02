@@ -33,12 +33,22 @@
 				<Setter Property="Foreground" Value="White" />
 			</Style>
 		</Grid.Styles>
+
+		<TextBlock
+			Grid.Column="1"
+			Grid.Row="1"
+			Text="{Binding ErrorMessage}"
+			FontSize="30"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			IsVisible="{Binding !IsConnectionEstablished}"/>
 		
 		<Border 
 			Grid.Column="1"
 			Grid.Row="1"
 			BorderBrush="Gainsboro"
-			BorderThickness="1">
+			BorderThickness="1"
+			IsVisible="{Binding IsConnectionEstablished}">
 			<DataGrid 
 				Name="RoadshopDataGrid"
 				Items="{Binding RoadshopItems}"

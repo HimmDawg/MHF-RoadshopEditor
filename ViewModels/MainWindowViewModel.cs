@@ -21,7 +21,8 @@ namespace RoadshopEditor.ViewModels
 {
 	public partial class MainWindowViewModel : ViewModelBase
 	{
-		[ObservableProperty] private bool _isItemPanelVisible = false;
+		[ObservableProperty] private bool _isItemPanelVisible = true;
+		[ObservableProperty] private string _errorMessage = string.Empty;
 		[ObservableProperty] private string _cost = string.Empty;
 		[ObservableProperty] private string _qRankRequirement = string.Empty;
 		[ObservableProperty] private string _quantity = string.Empty;
@@ -31,10 +32,18 @@ namespace RoadshopEditor.ViewModels
 		[ObservableProperty] private string _weeklyFatalisKills = string.Empty;
 		[ObservableProperty] private ShopCategory _selectedCategory = ShopCategory.BasicItems;
 		[ObservableProperty] private ShopCategory[] _shopCategories = Array.Empty<ShopCategory>();
-		[ObservableProperty] private KeyValuePair<int, string> _selectedRoadshopItemName;
-		[ObservableProperty] private RoadshopItem _selectedRoadshopItem = null!;
 		[ObservableProperty] private Dictionary<int, string> _allItems = null!;
 		[ObservableProperty] private ObservableCollection<RoadshopItem> _roadshopItems = null!;
+		[ObservableProperty,NotifyCanExecuteChangedFor(nameof(AddItemCommand))] private KeyValuePair<int, string>? _selectedRoadshopItemName;
+		[ObservableProperty,NotifyCanExecuteChangedFor(nameof(DeleteItemCommand))] private RoadshopItem? _selectedRoadshopItem = null!;
+		[ObservableProperty,
+		NotifyCanExecuteChangedFor(
+			nameof(ExportCommand),
+			nameof(ImportCommand),
+			nameof(StartAddItemCommand),
+			nameof(CancelAddItemCommand))]
+		private bool _isConnectionEstablished = true;
+
 
 		private readonly RoadshopContext _context;
 		private readonly IImportRoadshopItemService _importService;
@@ -56,21 +65,24 @@ namespace RoadshopEditor.ViewModels
 			SelectedCategory = ShopCategories[0];
 		}
 
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanExecuteAddItem))]
 		public async Task AddItem()
 		{
 			// need this because of non-auto-increment id
 			int maxItemHash = _context.RoadshopItems.Max(i => i.ItemHash);
 
+			// wont be null due to can execute check
+			var selectedRoadshopItemKvp = SelectedRoadshopItemName!.Value;
+
 			RoadshopItem item = new()
 			{
-				Name = SelectedRoadshopItemName.Value,
+				Name = selectedRoadshopItemKvp.Value,
 				ItemHash = maxItemHash + 1,
 				ShopType = 10,
 				LowRankRequirement = 0,
 				HighRankRequirement = 0,
 				StoreLevelRequirement = 1,
-				ItemId = SelectedRoadshopItemName.Key,
+				ItemId = selectedRoadshopItemKvp.Key,
 				ShopId = SelectedCategory,
 				PointCost = ushort.TryParse(Cost, out ushort cost)
 					? cost
@@ -100,7 +112,7 @@ namespace RoadshopEditor.ViewModels
 			await _context.SaveChangesAsync();
 		}
 
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanExecuteDeleteItem))]
 		public async Task DeleteItem()
 		{
 			if (SelectedRoadshopItem is null)
@@ -113,13 +125,13 @@ namespace RoadshopEditor.ViewModels
 			await _context.SaveChangesAsync();
 		}
 
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
 		public void Export(string filePath)
 		{
 			_exportService.ExportRoadshopItems(filePath, RoadshopItems.ToList());
 		}
 
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
 		public void Import(string filePath)
 		{
 			var items = _importService.ImportRoadshopItems(filePath);
@@ -131,22 +143,46 @@ namespace RoadshopEditor.ViewModels
 			}
 		}
 
-		[RelayCommand]
-		public void CancelAddItem()
-		{
-			IsItemPanelVisible = false;
-		}
-
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
 		public void StartAddItem()
 		{
 			IsItemPanelVisible = true;
 		}
 
+		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
+		public void CancelAddItem()
+		{
+			IsItemPanelVisible = false;
+		}
+
+		private bool CanExecuteCommands()
+		{
+			return IsConnectionEstablished;
+		}
+
+		private bool CanExecuteAddItem()
+		{
+			return IsConnectionEstablished && SelectedRoadshopItemName is not null;
+		}
+
+		private bool CanExecuteDeleteItem()
+		{
+			return IsConnectionEstablished && SelectedRoadshopItem is not null;
+		}
+
 		public async Task LoadItems(RoadshopContext context)
 		{
+			if (!await context.Database.CanConnectAsync())
+			{
+				ErrorMessage = "Connection to database could not be established.";
+				IsConnectionEstablished = false;
+				return;
+			}
+
 			if (!File.Exists("./data/mhf_items.json"))
 			{
+				ErrorMessage = "Could not find data/mhf_items.json. Please make sure it exists.";
+				IsConnectionEstablished = false;
 				return;
 			}
 
@@ -177,6 +213,7 @@ namespace RoadshopEditor.ViewModels
 
 			AllItems = itemNames;
 			RoadshopItems = new ObservableCollection<RoadshopItem>(roadItems.OrderBy(r => r.ItemHash));
+			IsConnectionEstablished = true;
 		}
 	}
 }
