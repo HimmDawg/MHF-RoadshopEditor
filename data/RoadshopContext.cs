@@ -24,7 +24,7 @@ namespace RoadshopEditor.Data
 
 			modelBuilder
 				.Entity<RoadshopItem>()
-				.ToTable("normal_shop_items")
+				.ToTable(_configuration["RoadshopItemsTable"])
 				.Ignore(item => item.Name)
 				.HasKey(item => item.ItemHash);
 
