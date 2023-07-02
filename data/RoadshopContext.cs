@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 using RoadshopEditor.Models;
 
-namespace RoadshopEditor.data
+namespace RoadshopEditor.Data
 {
 	public class RoadshopContext : DbContext
 	{
