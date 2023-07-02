@@ -59,7 +59,7 @@
 								<TextBlock 
 									Text="{Binding ShopId, Converter={StaticResource CategoryDescriptionConverter}}" 
 									VerticalAlignment="Center"
-									Margin="5, 0, 0, 0"/>
+									Margin="10, 0, 0, 0"/>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 						<DataGridTemplateColumn.CellEditingTemplate>
