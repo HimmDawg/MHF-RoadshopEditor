@@ -135,7 +135,7 @@
 				ItemTemplate="{StaticResource CategoryDescriptionTemplate}">
 			</ComboBox>
 			
-			<TextBlock Text="Itemname" />
+			<TextBlock Text="Item Name" />
 			<AutoCompleteBox
 				Items="{Binding AllItems}"
 				ValueMemberBinding="{Binding Value}"
