@@ -1,0 +1,194 @@
+<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:vm="using:RoadshopEditor.ViewModels"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:models="using:RoadshopEditor.Models"
+		xmlns:converters="using:RoadshopEditor.Views.Converters"
+		mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="800"
+		x:Class="RoadshopEditor.Views.MainWindow"
+		Name="mainWindow"
+		Icon="/Assets/avalonia-logo.ico"
+		Title="RoadshopEditor"
+		x:DataType="vm:MainWindowViewModel">
+
+	<Window.Resources>
+		<converters:ShopCategoryDescriptionConverter x:Key="CategoryDescriptionConverter"/>
+		<DataTemplate x:Key="CategoryDescriptionTemplate">
+			<TextBlock Text="{Binding ., Converter={StaticResource CategoryDescriptionConverter}}" Padding="5, 15, 5, 15" />
+		</DataTemplate>
+		<DataTemplate x:Key="CategoryDescriptionCellEditTemplate">
+			<TextBlock Text="{Binding ., Converter={StaticResource CategoryDescriptionConverter}}"/>
+		</DataTemplate>
+	</Window.Resources>
+
+	<Grid
+		ColumnDefinitions="15,*,auto,15"
+		RowDefinitions="15,*,60,15">
+
+		<Grid.Styles>
+			<Style Selector="Button">
+				<Setter Property="FontSize" Value="20" />
+				<Setter Property="Padding" Value="15, 10, 15, 10" />
+				<Setter Property="Foreground" Value="White" />
+			</Style>
+		</Grid.Styles>
+		
+		<Border 
+			Grid.Column="1"
+			Grid.Row="1"
+			BorderBrush="Gainsboro"
+			BorderThickness="1">
+			<DataGrid 
+				Name="RoadshopDataGrid"
+				Items="{Binding RoadshopItems}"
+				SelectedItem="{Binding SelectedRoadshopItem}"
+				CanUserReorderColumns="True"
+				CanUserResizeColumns="True"
+				CanUserSortColumns="True"
+				AutoGenerateColumns="False"
+				GridLinesVisibility="All">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="ID" Binding="{Binding ItemHash}" />
+					<DataGridTextColumn Header="Itemname" Binding="{Binding Name}" />
+					<DataGridTextColumn Header="Cost" Binding="{Binding PointCost}" />
+					<DataGridTextColumn Header="Quantity" Binding="{Binding TradeQuantity}" />
+					<DataGridTemplateColumn Header="Category" MinWidth="150">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="models:RoadshopItem">
+								<TextBlock 
+									Text="{Binding ShopId, Converter={StaticResource CategoryDescriptionConverter}}" 
+									VerticalAlignment="Center"
+									Margin="5, 0, 0, 0"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+						<DataGridTemplateColumn.CellEditingTemplate>
+							<DataTemplate DataType="models:RoadshopItem">
+								<ComboBox 
+									Items="{Binding DataContext.ShopCategories, RelativeSource={RelativeSource AncestorType=Window}}" 
+									SelectedItem="{Binding ShopId}"
+									ItemTemplate="{StaticResource CategoryDescriptionCellEditTemplate}"
+									HorizontalAlignment="Stretch">
+								</ComboBox>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellEditingTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Header="G-Rank Req." Binding="{Binding GRankRequirement}" />
+					<DataGridTextColumn Header="Max. Quant." Binding="{Binding MaxQuantity}" />
+					<DataGridTextColumn Header="Bought Quant." Binding="{Binding QuantityBought}" />
+					<DataGridTextColumn Header="H.Road Floor Req." Binding="{Binding HuntingRoadLevelRequirement}" />
+					<DataGridTextColumn Header="Fatalis Kills" Binding="{Binding WeeklyFatalisKills}" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Border>
+
+		<StackPanel 
+			Grid.Row="2"
+			Grid.Column="1"
+			Spacing="10"
+			VerticalAlignment="Center"
+			Orientation="Horizontal">
+			<Button 
+				Background="#218838"
+				Content="Add new item"
+				Command="{Binding StartAddItemCommand}"/>
+			<Button 
+				Background="#dc3545"
+				Content="Delete item"
+				Command="{Binding DeleteItemCommand}"/>
+			<Button
+				Background="BlueViolet"
+				Content="Export"
+				Click="ExportItems_OnClick"/>
+			<Button
+				Background="BlueViolet"
+				Content="Import"
+				Click="ImportItems_OnClick"/>
+		</StackPanel>
+
+		<StackPanel
+			Grid.Row="1"
+			Grid.Column="2"
+			Width="400"
+			Margin="5, 10, 0, 10"
+			IsVisible="{Binding IsItemPanelVisible}"
+			Spacing="10">
+			<StackPanel.Styles>
+				<Style Selector="TextBlock">
+					<Setter Property="FontSize" Value="20" />
+				</Style>
+				<Style Selector="StackPanel">
+					<Setter Property="Spacing" Value="2" />
+				</Style>
+				<Style Selector="TextBox">
+					<Setter Property="FontSize" Value="20" />
+					<Setter Property="VerticalContentAlignment" Value="Center" />
+				</Style>
+			</StackPanel.Styles>
+			<TextBlock Text="Category" />
+			<ComboBox 
+				Padding="10, 0, 0, 0"
+				Items="{Binding ShopCategories}"
+				SelectedItem="{Binding SelectedCategory}"
+				Width="300"
+				MaxDropDownHeight="700"
+				ItemTemplate="{StaticResource CategoryDescriptionTemplate}">
+			</ComboBox>
+			
+			<TextBlock Text="Itemname" />
+			<AutoCompleteBox
+				Items="{Binding AllItems}"
+				ValueMemberBinding="{Binding Value}"
+				SelectedItem="{Binding SelectedRoadshopItemName}"
+				Watermark="- - - - - - - -"
+				FontSize="20">
+				<AutoCompleteBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Value}"/>
+					</DataTemplate>
+				</AutoCompleteBox.ItemTemplate>
+			</AutoCompleteBox>
+
+			<StackPanel>
+				<TextBlock Text="Cost" />
+				<TextBox Text="{Binding Cost}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock Text="QRank Requirement" />
+				<TextBox Text="{Binding QRankRequirement}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock Text="Quantity" />
+				<TextBox Text="{Binding Quantity}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock Text="Max. Quantity" />
+				<TextBox Text="{Binding MaxQuantity}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock Text="Bought Quantity" />
+				<TextBox Text="{Binding BoughtQuantity}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock Text="Floor Requirement" />
+				<TextBox Text="{Binding FloorRequirement}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock Text="Weekly Fatalis Kills" />
+				<TextBox Text="{Binding WeeklyFatalisKills}" Watermark="0"/>
+			</StackPanel>
+			<StackPanel 
+				Orientation="Horizontal"
+				Spacing="10">
+				<Button
+					Background="#218838"
+					Content="Add" 
+					Command="{Binding AddItemCommand}"/>
+				<Button
+					Background="#dc3545"
+					Content="Cancel" 
+					Command="{Binding CancelAddItemCommand}"/>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
+</Window>
