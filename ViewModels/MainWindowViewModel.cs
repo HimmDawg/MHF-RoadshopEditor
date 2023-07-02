@@ -21,7 +21,6 @@ namespace RoadshopEditor.ViewModels
 {
 	public partial class MainWindowViewModel : ViewModelBase
 	{
-		[ObservableProperty] private ShopCategory _selectedCategory = ShopCategory.BasicItems;
 		[ObservableProperty] private bool _isItemPanelVisible = false;
 		[ObservableProperty] private string _cost = string.Empty;
 		[ObservableProperty] private string _qRankRequirement = string.Empty;
@@ -30,6 +29,7 @@ namespace RoadshopEditor.ViewModels
 		[ObservableProperty] private string _boughtQuantity = string.Empty;
 		[ObservableProperty] private string _floorRequirement = string.Empty;
 		[ObservableProperty] private string _weeklyFatalisKills = string.Empty;
+		[ObservableProperty] private ShopCategory _selectedCategory = ShopCategory.BasicItems;
 		[ObservableProperty] private ShopCategory[] _shopCategories = Array.Empty<ShopCategory>();
 		[ObservableProperty] private KeyValuePair<int, string> _selectedRoadshopItemName;
 		[ObservableProperty] private RoadshopItem _selectedRoadshopItem = null!;
