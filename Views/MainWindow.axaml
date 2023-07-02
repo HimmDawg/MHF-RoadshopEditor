@@ -109,10 +109,12 @@
 			<Button
 				Background="BlueViolet"
 				Content="Export"
+				IsEnabled="{Binding IsConnectionEstablished}"
 				Click="ExportItems_OnClick"/>
 			<Button
 				Background="BlueViolet"
 				Content="Import"
+				IsEnabled="{Binding IsConnectionEstablished}"
 				Click="ImportItems_OnClick"/>
 		</StackPanel>
 

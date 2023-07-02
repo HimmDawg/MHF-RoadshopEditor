@@ -47,8 +47,6 @@ namespace RoadshopEditor.ViewModels
 
 		[ObservableProperty,
 		NotifyCanExecuteChangedFor(
-			nameof(ExportCommand),
-			nameof(ImportCommand),
 			nameof(StartAddItemCommand),
 			nameof(CancelAddItemCommand))]
 		private bool _isConnectionEstablished = true;
@@ -134,24 +132,6 @@ namespace RoadshopEditor.ViewModels
 		}
 
 		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
-		public void Export(string filePath)
-		{
-			_exportService.ExportRoadshopItems(filePath, RoadshopItems.ToList());
-		}
-
-		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
-		public void Import(string filePath)
-		{
-			var items = _importService.ImportRoadshopItems(filePath);
-			RoadshopItems.Clear();
-			foreach (var item in items)
-			{
-				item.Name = AllItems[item.ItemId];
-				RoadshopItems.Add(item);
-			}
-		}
-
-		[RelayCommand(CanExecute = nameof(CanExecuteCommands))]
 		public void StartAddItem()
 		{
 			IsItemPanelVisible = true;
@@ -176,6 +156,22 @@ namespace RoadshopEditor.ViewModels
 		private bool CanExecuteDeleteItem()
 		{
 			return IsConnectionEstablished && SelectedRoadshopItem is not null;
+		}
+
+		public void Export(string filePath)
+		{
+			_exportService.ExportRoadshopItems(filePath, RoadshopItems.ToList());
+		}
+
+		public void Import(string filePath)
+		{
+			var items = _importService.ImportRoadshopItems(filePath);
+			RoadshopItems.Clear();
+			foreach (var item in items)
+			{
+				item.Name = AllItems[item.ItemId];
+				RoadshopItems.Add(item);
+			}
 		}
 
 		public async Task Initialize(RoadshopContext context)
