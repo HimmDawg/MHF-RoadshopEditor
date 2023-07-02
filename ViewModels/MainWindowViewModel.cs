@@ -59,7 +59,7 @@ namespace RoadshopEditor.ViewModels
 			_exportService = exportService;
 
 			// fire and forget. Doesn't really matter here. UI will be notified anyway
-			LoadItems(_context).ConfigureAwait(false);
+			Initialize(_context).ConfigureAwait(false);
 			ShopCategories = Enum.GetValues<ShopCategory>();
 			IsItemPanelVisible = false;
 			SelectedCategory = ShopCategories[0];
@@ -170,7 +170,7 @@ namespace RoadshopEditor.ViewModels
 			return IsConnectionEstablished && SelectedRoadshopItem is not null;
 		}
 
-		public async Task LoadItems(RoadshopContext context)
+		public async Task Initialize(RoadshopContext context)
 		{
 			if (!await context.Database.CanConnectAsync())
 			{
