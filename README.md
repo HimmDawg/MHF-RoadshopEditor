@@ -12,10 +12,10 @@ Navigate to your folder where you have unpacked the archive and locate `appsetti
   "ConnectionStrings": {
     "RoadshopItemsDatabase": "Host=<host>;Database=erupe;Username=<username>;Password=<password>"
   },
-  "RoadshopItemsTable": "normal_shop_items"
+  "RoadshopItemsTable": "shop_items"
 }
 ```
-Put in the required information for `<host>`, `<username>` and `<password>` and save the file. If your roadshop items tablename should differ from the one I put in, you can of course change it here too.
+Put in the required information for `<host>`, `<username>` and `<password>` and save the file. If your roadshop items tablename should differ from the one I put in, you can of course change it here too, provided that the schema stays the same.
 
 # Usage
 ### Adding items

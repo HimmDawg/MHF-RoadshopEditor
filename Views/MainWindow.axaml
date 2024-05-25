@@ -85,7 +85,6 @@
 					</DataGridTemplateColumn>
 					<DataGridTextColumn Header="G-Rank Req." Binding="{Binding GRankRequirement}" />
 					<DataGridTextColumn Header="Max. Quant." Binding="{Binding MaxQuantity}" />
-					<DataGridTextColumn Header="Bought Quant." Binding="{Binding QuantityBought}" />
 					<DataGridTextColumn Header="H.Road Floor Req." Binding="{Binding HuntingRoadLevelRequirement}" />
 					<DataGridTextColumn Header="Fatalis Kills" Binding="{Binding WeeklyFatalisKills}" />
 				</DataGrid.Columns>

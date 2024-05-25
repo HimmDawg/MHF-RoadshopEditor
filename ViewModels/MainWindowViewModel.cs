@@ -102,9 +102,6 @@ namespace RoadshopEditor.ViewModels
 				MaxQuantity = ushort.TryParse(MaxQuantity, out ushort maxQuantity)
 					? maxQuantity
 					: (ushort)0,
-				QuantityBought = ushort.TryParse(BoughtQuantity, out ushort boughtQuantity)
-					? boughtQuantity
-					: (ushort)0,
 				HuntingRoadLevelRequirement = ushort.TryParse(FloorRequirement, out ushort storeLevelRequirement)
 					? storeLevelRequirement
 					: (ushort)0,
@@ -169,7 +166,7 @@ namespace RoadshopEditor.ViewModels
 			RoadshopItems.Clear();
 			foreach (var item in items)
 			{
-				item.Name = AllItems[item.ItemId];
+				item.Name = AllItems.GetValueOrDefault(item.ItemId) ?? string.Empty;
 				RoadshopItems.Add(item);
 			}
 		}

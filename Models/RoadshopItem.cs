@@ -4,46 +4,43 @@ namespace RoadshopEditor.Models
 {
 	public sealed class RoadshopItem
 	{
-		[Column("itemhash")]
+		[Column("id")]
 		public int ItemHash { get; set; }
 
-		[Column("shoptype")]
+		[Column("shop_type")]
 		public int? ShopType { get; set; }
 
-		[Column("shopid")]
+		[Column("shop_id")]
 		public ShopCategory ShopId { get; set; }
 
-		[Column("itemid")]
+		[Column("item_id")]
 		public int ItemId { get; set; }
 
-		[Column("points")]
-		public ushort? PointCost { get; set; }
+		[Column("cost")]
+		public int? PointCost { get; set; }
 
-		[Column("tradequantity")]
+		[Column("quantity")]
 		public ushort? TradeQuantity { get; set; }
 
-		[Column("rankreqlow")]
+		[Column("min_hr")]
 		public ushort? LowRankRequirement { get; set; }
 
-		[Column("rankreqhigh")]
+		[Column("min_sr")]
 		public ushort? HighRankRequirement { get; set; }
 
-		[Column("rankreqg")]
+		[Column("min_gr")]
 		public ushort? GRankRequirement { get; set; }
 
-		[Column("storelevelreq")]
+		[Column("store_level")]
 		public ushort? StoreLevelRequirement { get; set; }
 
-		[Column("maximumquantity")]
+		[Column("max_quantity")]
 		public ushort? MaxQuantity { get; set; }
 
-		[Column("boughtquantity")]
-		public ushort? QuantityBought { get; set; }
-
-		[Column("roadfloorsrequired")]
+		[Column("road_floors")]
 		public ushort? HuntingRoadLevelRequirement { get; set; }
 
-		[Column("weeklyfataliskills")]
+		[Column("road_fatalis")]
 		public ushort? WeeklyFatalisKills { get; set; }
 
 		[NotMapped]

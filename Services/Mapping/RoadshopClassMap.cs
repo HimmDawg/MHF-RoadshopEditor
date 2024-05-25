@@ -1,6 +1,7 @@
 ﻿using CsvHelper.Configuration;
 
 using RoadshopEditor.Models;
+using RoadshopEditor.Services.Mapping.CsvConverters;
 
 namespace RoadshopEditor.Services.Mapping;
 
@@ -9,7 +10,7 @@ internal sealed class RoadshopClassMap : ClassMap<RoadshopItem>
 	internal RoadshopClassMap()
 	{
 		Map(m => m.ShopType).Name("shoptype");
-		Map(m => m.ShopId).Name("shopid");
+		Map(m => m.ShopId).Name("shopid").TypeConverter<ShopCategoryConverter>();
 		Map(m => m.ItemHash).Name("itemhash");
 		Map(m => m.ItemId).Name("itemid");
 		Map(m => m.PointCost).Name("points");
@@ -19,7 +20,6 @@ internal sealed class RoadshopClassMap : ClassMap<RoadshopItem>
 		Map(m => m.GRankRequirement).Name("rankreqg");
 		Map(m => m.StoreLevelRequirement).Name("storelevelreq");
 		Map(m => m.MaxQuantity).Name("maximumquantity");
-		Map(m => m.QuantityBought).Name("boughtquantity");
 		Map(m => m.HuntingRoadLevelRequirement).Name("roadfloorsrequired");
 		Map(m => m.WeeklyFatalisKills).Name("weeklyfataliskills");
 	}
